@@ -22,7 +22,8 @@ app.use(cookieParser())
 // })
 
 require('./routes/user.routes')(app)
+require('./front-end/app')(app)
 require('./connection');
-require('./Anime-IMDB/App')(app)
+
 
 app.listen(port, () => console.log(`listening on port: ${port}`))

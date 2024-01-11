@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const { stringify } = require('querystring')
 const UserSchema = mongoose.Schema({
   username: {
     type: String,
@@ -13,9 +12,10 @@ const UserSchema = mongoose.Schema({
       message: "Please enter a valid email!"
     }
   },
+  // We created a table called favorite
   favorites: {
-    type: [Object],
-    default: [],
+    type: [mongoose.Schema.Types.Object],
+    ref: 'Anime',
   }
   },
   {timestamps:true}

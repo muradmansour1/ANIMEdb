@@ -12,5 +12,7 @@ module.exports = app => {
 
   app.put("/api/users/:id", UserController.updateUser) 
   
-  app.post("/api/favorites/:id", UserController.userFavorites)
+  app.post("/api/users/favorites/:id", UserController.userFavorite)
+
+  app.delete("/api/users/favorites/:id", UserController.deleteFavorite)
 } 
