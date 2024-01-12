@@ -2,7 +2,7 @@ const cookieParser = require("cookie-parser");
 const express = require("express")
 const app = express()
 const cors = require('cors')
-const port = 8000
+// const port = 8000
 require('dotenv').config();
 
 // const animes = [
@@ -32,5 +32,7 @@ require('./routes/user.routes')(app)
 //require('./front-end/app')(app)
 require('./connection');
 
-
-app.listen(port, () => console.log(`listening on port: ${port}`))
+const PORT = process.env.PORT || 8000;
+app.listen(PORT, () => {
+ console.log(`listening on port: ${port}`)
+});
