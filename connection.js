@@ -1,8 +1,10 @@
 const mongoose = require("mongoose");
-const my_db = "anime-api"
+require('dotenv').config()
+// const my_db = "anime-api"
 mongoose.Promise = Promise;
 
-const mongoURI = `mongodb://localhost/${my_db}`;
+const mongoURI = process.env.MONGODB_URI || `mongodb://localhost/anime-api`;
+
 mongoose
   .connect(mongoURI, { useNewUrlParser: true })
   .then(instance =>
