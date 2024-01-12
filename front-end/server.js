@@ -1,7 +1,7 @@
 function registerUser(){
   document.getElementById('register-form').addEventListener('submit', (e) => {
     e.preventDefault();
-  
+  //test
     const username = document.getElementById('user_name').value;
     const email = document.getElementById('email').value;
   
