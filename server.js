@@ -17,8 +17,8 @@ app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(cookieParser())
 const corsOptions = {
-  origin: ['*', 'http://127.0.0.1:5500'],// Replace with your front-end's origin
-  credentials: true, // This is important for credentials mode 'include'
+  origin: '*'// Replace with your front-end's origin
+  // credentials: true, // This is important for credentials mode 'include'
 };
 app.use(cors(corsOptions));
 
