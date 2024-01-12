@@ -50,24 +50,44 @@ class UserController{
 		
 		//if we made it this far then user has logged in succesfully!
 		const userToken = jwt.sign({
-			id: user._id
+			id: user._id,
 		}, secret);
 		
 		res
-			.cookie("usertoken", userToken, secret, {
-				httpOnly: true
-			})
-			.json({message: "success!", user: user})
+			// .cookie("usertoken", userToken, secret, {
+			// 	httpOnly: true
+			// })
+		.json({message: "success!", token:userToken, user: user})
 	}
-	getLoggedInUser = (req, res)=>{
-		//use the info stored in the cookie to get the id of the logged in user and query the db to find a user with that id, and return with info about the logged in user.
-		const decodeJwt = jwt.decode(req.cookies.usertoken, {complete: true})
-		User.findOne({ _id: decodeJwt.payload.id})
-			.then(foundUser =>{
-				res.json({ results: {id: foundUser.id, username: foundUser.username, email: foundUser.email, favorites: foundUser.favorites}})
-			})
-			.catch(err => res.json({msg: "something went wrong!", error: err}))
-	}
+	getLoggedInUser = (req, res) => {
+    try {
+        // Extract the token from the Authorization header
+        const token = req.headers.authorization;
+				console.log('req.headers --->', req.headers)
+				console.log('token --> ', token);
+        if (!token) {
+            return res.status(401).json({ msg: "No token provided" });
+        }
+        // Decode the JWT token
+        const decodedJwt = jwt.verify(token, secret); // Adjust the 'secret' as per your configuration
+        User.findOne({ _id: decodedJwt.id })
+            .then(foundUser => {
+                res.json({ results: { id: foundUser.id, username: foundUser.username, email: foundUser.email, favorites: foundUser.favorites } });
+            })
+            .catch(err => res.status(500).json({ msg: "something went wrong!", error: err }));
+    } catch (error) {
+        res.status(500).json({ msg: "Error decoding token", error });
+    }
+};
+	// getLoggedInUser = (req, res)=>{
+	// 	//use the info stored in the cookie to get the id of the logged in user and query the db to find a user with that id, and return with info about the logged in user.
+	// 	const decodeJwt = jwt.decode(req.cookies.usertoken, {complete: true})
+	// 	User.findOne({ _id: decodeJwt.payload.id})
+	// 		.then(foundUser =>{
+	// 			res.json({ results: {id: foundUser.id, username: foundUser.username, email: foundUser.email, favorites: foundUser.favorites}})
+	// 		})
+	// 		.catch(err => res.json({msg: "something went wrong!", error: err}))
+	// }
 
 	deleteUser = (req, res)=>{
 		User.deleteOne({_id: req.params.id})
